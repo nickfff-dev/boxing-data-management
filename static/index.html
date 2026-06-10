@@ -1,0 +1,1452 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>BFK Admin — Boxing Federation of Kenya</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --red:#CE1126;--red-dk:#920d1a;--red-lt:#ff3347;
+  --grn:#006600;--grn-lt:#22cc44;--grn-dk:#004400;
+  --bg:#0e0e0e;--surf:#161616;--surf2:#1e1e1e;--surf3:#252525;
+  --bdr:#2a2a2a;--bdr2:#333;
+  --text:#e8e2d8;--muted:#7a7060;--dim:#4a4540;
+  --fd:'Bebas Neue',sans-serif;--fb:'Barlow',sans-serif;--fc:'Barlow Condensed',sans-serif;
+  --sw:240px;--hh:56px;--r:6px;--rl:10px;
+}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb)}
+::selection{background:var(--red);color:#fff}
+::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--bdr2);border-radius:9px}
+
+/* ─ LAYOUT ─ */
+#wrap{display:flex;min-height:100vh}
+#sidebar{width:var(--sw);min-width:var(--sw);background:#0a0a0a;border-right:1px solid #1a1a1a;position:fixed;inset:0 auto 0 0;display:flex;flex-direction:column;overflow-y:auto;z-index:100}
+#main{margin-left:var(--sw);flex:1;display:flex;flex-direction:column}
+
+/* ─ SIDEBAR ─ */
+.s-logo{padding:18px 18px 14px;border-bottom:1px solid #1e1e1e}
+.s-flag{display:flex;height:3px;border-radius:2px;overflow:hidden;margin-bottom:10px}
+.s-flag b{flex:1}.s-flag b:nth-child(1){background:#111;border:1px solid #2a2a2a}.s-flag b:nth-child(2){background:var(--red)}.s-flag b:nth-child(3){background:var(--grn)}.s-flag b:nth-child(4){background:#F5F0E8}
+.s-title{font-family:var(--fd);font-size:21px;letter-spacing:2px;color:#fff;line-height:1}
+.s-sub{font-family:var(--fc);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:3px}
+.s-sec{padding:14px 12px 3px;font-family:var(--fc);font-size:10px;letter-spacing:3px;color:var(--dim);text-transform:uppercase}
+.nav{display:flex;align-items:center;gap:9px;padding:8px 14px;margin:1px 7px;border-radius:var(--r);font-family:var(--fc);font-size:14px;font-weight:600;letter-spacing:.4px;color:var(--muted);cursor:pointer;transition:all .15s;border:1px solid transparent;user-select:none}
+.nav:hover{background:var(--surf2);color:var(--text)}
+.nav.on{background:var(--red);color:#fff;border-color:var(--red-dk)}
+.nav .ic{font-size:14px;width:17px;text-align:center;flex-shrink:0}
+.nb{margin-left:auto;font-size:10px;padding:1px 5px;border-radius:9px;font-weight:700;line-height:1.4}
+.nb.g{background:var(--grn);color:#fff}.nb.r{background:var(--red);color:#fff}
+.s-bot{margin-top:auto;padding:14px;border-top:1px solid #1a1a1a;display:flex;align-items:center;gap:9px}
+.s-av{width:30px;height:30px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:13px;color:#fff;flex-shrink:0}
+
+/* ─ TOPBAR ─ */
+#topbar{height:var(--hh);background:var(--surf);border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;padding:0 26px;position:sticky;top:0;z-index:50}
+.tb-l{display:flex;flex-direction:column;gap:1px}
+.tb-title{font-family:var(--fd);font-size:19px;letter-spacing:2px;color:#fff}
+.tb-bc{font-family:var(--fc);font-size:11px;color:var(--muted);letter-spacing:.5px}
+.tb-bc em{color:var(--red);font-style:normal}
+.tb-r{display:flex;align-items:center;gap:10px}
+.btn{background:var(--surf2);border:1px solid var(--bdr2);color:var(--muted);padding:6px 13px;border-radius:var(--r);font-family:var(--fc);font-size:13px;font-weight:600;cursor:pointer;transition:all .13s;display:flex;align-items:center;gap:5px}
+.btn:hover{background:var(--surf3);color:var(--text)}
+.btn.red{background:var(--red);border-color:var(--red-dk);color:#fff}.btn.red:hover{background:var(--red-lt)}
+.btn.grn{background:var(--grn);border-color:var(--grn-dk);color:#fff}.btn.grn:hover{background:var(--grn-lt)}
+
+/* ─ SEARCH ─ */
+.srch{position:relative}
+.srch input{background:var(--surf2);border:1px solid var(--bdr2);color:var(--text);padding:6px 11px 6px 30px;border-radius:var(--r);font-family:var(--fb);font-size:13px;outline:none;width:200px;transition:border .13s,width .2s}
+.srch input:focus{border-color:var(--red);width:260px}
+.srch .si{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:var(--dim);font-size:12px;pointer-events:none}
+.sdrop{position:absolute;top:calc(100%+5px);left:0;width:320px;background:var(--surf);border:1px solid var(--bdr2);border-radius:var(--rl);z-index:400;display:none;box-shadow:0 8px 24px rgba(0,0,0,.6);overflow:hidden}
+.sdrop.on{display:block}
+.sdrop-cat{font-family:var(--fc);font-size:10px;letter-spacing:2px;color:var(--dim);text-transform:uppercase;padding:7px 13px 3px}
+.sdrop-row{display:flex;align-items:center;justify-content:space-between;padding:8px 13px;cursor:pointer;gap:8px;transition:background .1s}
+.sdrop-row:hover{background:var(--surf2)}
+.sdrop-name{font-family:var(--fc);font-size:13px;font-weight:700;color:#fff}
+.sdrop-sub{font-size:11px;color:var(--muted)}
+.sdrop-empty{padding:14px;text-align:center;font-family:var(--fc);font-size:13px;color:var(--dim)}
+
+/* ─ CONTENT ─ */
+#content{flex:1;padding:26px;overflow-y:auto}
+.view{display:none}.view.on{display:block}
+
+/* ─ LOADING / ERROR ─ */
+.ld{display:flex;align-items:center;gap:7px;font-family:var(--fc);font-size:13px;color:var(--dim);padding:18px 0}
+.ld-dot{width:7px;height:7px;border-radius:50%;background:var(--red);animation:pulse 1.2s infinite ease-in-out}
+.ld-dot:nth-child(2){animation-delay:.2s}.ld-dot:nth-child(3){animation-delay:.4s}
+@keyframes pulse{0%,80%,100%{transform:scale(.55);opacity:.35}40%{transform:scale(1);opacity:1}}
+.er{background:rgba(206,17,38,.08);border:1px solid rgba(206,17,38,.25);color:#ff6070;border-radius:var(--r);padding:11px 14px;font-family:var(--fc);font-size:13px;margin-bottom:10px}
+.emp{text-align:center;padding:36px;font-family:var(--fc);font-size:14px;color:var(--dim)}
+
+/* ─ STATS ─ */
+.sg{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:24px}
+.sc{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--rl);padding:18px;position:relative;overflow:hidden}
+.sc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.sc.r::before{background:var(--red)}.sc.g::before{background:var(--grn)}.sc.w::before{background:#F5F0E8}.sc.o::before{background:#c8a84b}
+.sc-lbl{font-family:var(--fc);font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:7px}
+.sc-val{font-family:var(--fd);font-size:34px;color:#fff;line-height:1}
+.sc-sub{font-family:var(--fc);font-size:11px;color:var(--muted);margin-top:5px}
+.sc-ic{position:absolute;right:14px;top:14px;font-size:26px;opacity:.12}
+
+/* ─ SECTION ─ */
+.sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.st{font-family:var(--fd);font-size:17px;letter-spacing:2px;color:#fff}
+.st em{color:var(--red);font-style:normal}
+
+/* ─ TABLE ─ */
+.tw{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--rl);overflow:hidden;margin-bottom:22px}
+.tt{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--bdr);gap:10px;flex-wrap:wrap}
+.sb{display:flex;align-items:center;gap:7px;background:var(--surf2);border:1px solid var(--bdr2);border-radius:var(--r);padding:6px 10px;flex:1;max-width:280px}
+.sb input{background:none;border:none;outline:none;color:var(--text);font-family:var(--fb);font-size:13px;width:100%}
+.sb input::placeholder{color:var(--dim)}
+.fsel{background:var(--surf2);border:1px solid var(--bdr2);color:var(--muted);padding:6px 8px;border-radius:var(--r);font-family:var(--fc);font-size:12px;outline:none;cursor:pointer}
+table{width:100%;border-collapse:collapse}
+thead{background:var(--surf2)}
+th{font-family:var(--fc);font-size:10px;letter-spacing:2px;color:var(--dim);text-transform:uppercase;padding:9px 14px;text-align:left;font-weight:600;border-bottom:1px solid var(--bdr);white-space:nowrap}
+td{padding:11px 14px;border-bottom:1px solid var(--bdr);font-size:13px;color:var(--text);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tbody tr{transition:background .1s}
+tbody tr:hover{background:var(--surf2)}
+.tm{color:var(--muted);font-size:12px}
+.tmono{font-family:monospace;font-size:11px;color:var(--muted)}
+
+/* ─ BADGE ─ */
+.bdg{display:inline-flex;align-items:center;padding:2px 8px;border-radius:9px;font-family:var(--fc);font-size:10px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;white-space:nowrap}
+.bg{background:rgba(0,100,0,.22);color:#22dd55;border:1px solid rgba(0,130,0,.3)}
+.br{background:rgba(206,17,38,.18);color:#ff4455;border:1px solid rgba(206,17,38,.3)}
+.by{background:rgba(200,168,75,.13);color:#e6c55a;border:1px solid rgba(200,168,75,.28)}
+.bw{background:rgba(245,240,232,.08);color:#b8b0a0;border:1px solid rgba(245,240,232,.18)}
+.bb{background:rgba(50,130,220,.13);color:#66aaff;border:1px solid rgba(50,130,220,.28)}
+
+/* ─ AVATAR ─ */
+.av{width:30px;height:30px;border-radius:50%;background:var(--surf3);border:1.5px solid var(--bdr2);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:12px;color:var(--red);flex-shrink:0}
+.fi{display:flex;align-items:center;gap:9px}
+.fn{font-weight:600;font-size:13px;color:#fff}
+.fnk{font-size:11px;color:var(--red);font-style:italic;font-family:var(--fc)}
+
+/* ─ ICON BUTTONS ─ */
+.ibtns{display:flex;gap:5px}
+.ib{width:26px;height:26px;border-radius:var(--r);display:flex;align-items:center;justify-content:center;border:1px solid var(--bdr2);background:var(--surf3);color:var(--muted);cursor:pointer;font-size:12px;transition:all .13s}
+.ib:hover{background:var(--red);border-color:var(--red);color:#fff}
+.ib.v:hover{background:var(--grn);border-color:var(--grn);color:#fff}
+
+/* ─ PAGINATION ─ */
+.pg{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-top:1px solid var(--bdr)}
+.pg-inf{font-family:var(--fc);font-size:11px;color:var(--muted)}
+.pg-bts{display:flex;gap:3px}
+.pg-b{width:26px;height:26px;border-radius:var(--r);border:1px solid var(--bdr2);background:var(--surf3);color:var(--muted);cursor:pointer;font-size:11px;display:flex;align-items:center;justify-content:center;font-family:var(--fc);font-weight:700;transition:all .13s}
+.pg-b:hover,.pg-b.on{background:var(--red);border-color:var(--red);color:#fff}
+
+/* ─ TABS ─ */
+.tabbar{display:flex;gap:2px;margin-bottom:14px;background:var(--surf2);padding:3px;border-radius:var(--rl);border:1px solid var(--bdr)}
+.tb{flex:1;padding:7px 10px;border-radius:var(--r);font-family:var(--fc);font-size:13px;font-weight:600;letter-spacing:.4px;color:var(--muted);cursor:pointer;transition:all .13s;text-align:center;border:none;background:none}
+.tb.on{background:var(--red);color:#fff}
+.tb:hover:not(.on){background:var(--surf3);color:var(--text)}
+.tc{display:none}.tc.on{display:block}
+
+/* ─ MODAL ─ */
+.mo{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;display:flex;align-items:flex-start;justify-content:flex-end;opacity:0;pointer-events:none;transition:opacity .18s}
+.mo.on{opacity:1;pointer-events:all}
+.mp{width:680px;max-width:100vw;height:100vh;background:var(--surf);border-left:1px solid var(--bdr);overflow-y:auto;transform:translateX(100%);transition:transform .22s ease;display:flex;flex-direction:column}
+.mo.on .mp{transform:translateX(0)}
+.mh{padding:18px 22px;border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--surf);z-index:10}
+.mt{font-family:var(--fd);font-size:19px;letter-spacing:2px;color:#fff}
+.mst{font-family:var(--fc);font-size:11px;color:var(--muted);margin-top:2px;letter-spacing:.5px}
+.mx{width:30px;height:30px;border-radius:var(--r);border:1px solid var(--bdr2);background:var(--surf3);color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;transition:all .13s}
+.mx:hover{background:var(--red);border-color:var(--red);color:#fff}
+.mb{padding:22px;flex:1}
+.mf{padding:14px 22px;border-top:1px solid var(--bdr);display:flex;gap:8px;justify-content:flex-end}
+
+/* ─ FORM ─ */
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.fgr{display:flex;flex-direction:column;gap:5px}
+.fl{font-family:var(--fc);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);font-weight:600}
+.fi2,.fsel2,.fta{background:var(--surf2);border:1px solid var(--bdr2);color:var(--text);padding:8px 11px;border-radius:var(--r);font-family:var(--fb);font-size:13px;outline:none;transition:border .13s;width:100%}
+.fi2:focus,.fsel2:focus,.fta:focus{border-color:var(--red)}
+.fta{resize:vertical;min-height:70px}
+
+/* ─ DETAIL ─ */
+.ph{background:var(--surf2);border:1px solid var(--bdr);border-radius:var(--rl);padding:18px;margin-bottom:18px;position:relative;overflow:hidden}
+.ph::before{content:'';position:absolute;top:0;left:0;right:0;height:60px;background:linear-gradient(135deg,var(--red-dk),var(--grn-dk))}
+.pi{position:relative;z-index:1}
+.av2{width:62px;height:62px;border-radius:50%;border:3px solid var(--red);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:23px;color:#fff;margin-bottom:8px;background:var(--surf3)}
+.pn{font-family:var(--fd);font-size:22px;letter-spacing:2px;color:#fff;line-height:1}
+.pnk{color:var(--red);font-family:var(--fc);font-size:12px;font-style:italic;margin-top:2px;margin-bottom:7px}
+.dg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.dg3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px}
+.di{background:var(--surf2);border:1px solid var(--bdr);border-radius:var(--r);padding:10px}
+.di-l{font-family:var(--fc);font-size:9px;letter-spacing:2px;color:var(--dim);text-transform:uppercase;margin-bottom:3px}
+.di-v{font-family:var(--fc);font-size:13px;font-weight:700;color:var(--text)}
+.di-v.ok{color:var(--grn-lt)}.di-v.warn{color:#e6c55a}.di-v.bad{color:var(--red)}
+.rb{background:var(--surf2);border:1px solid var(--bdr);border-radius:var(--rl);padding:14px;display:grid;grid-template-columns:repeat(5,1fr);gap:10px;text-align:center;margin-bottom:14px}
+.rv{font-family:var(--fd);font-size:24px;line-height:1}
+.rv.w{color:var(--grn-lt)}.rv.l{color:var(--red)}.rv.d{color:#e6c55a}.rv.g{color:#c8a84b}
+.rl{font-family:var(--fc);font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-top:2px}
+.dt-sec{font-family:var(--fd);font-size:12px;letter-spacing:2px;color:var(--red);margin:14px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--bdr)}
+.br-row{background:var(--surf2);border:1px solid var(--bdr);border-radius:var(--r);padding:10px;margin-bottom:6px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px}
+.brc{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:13px;flex-shrink:0}
+.brc.bw{background:var(--grn)}.brc.bl{background:var(--red)}.brc.bd{background:#c8a84b}
+.vs-card{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;background:var(--surf2);border:1px solid var(--bdr);border-radius:var(--rl);padding:14px;margin-bottom:12px}
+.vs-side{text-align:center}
+.vs-vs{font-family:var(--fd);font-size:20px;color:var(--red)}
+.al{border-radius:var(--r);padding:10px 13px;margin-bottom:10px;font-family:var(--fc);font-size:13px}
+.al.r{background:rgba(206,17,38,.08);border:1px solid rgba(206,17,38,.22);color:#ff6070}
+.al.g{background:rgba(0,100,0,.08);border:1px solid rgba(0,100,0,.22);color:#44dd66}
+.al.y{background:rgba(200,168,75,.08);border:1px solid rgba(200,168,75,.22);color:#e6c55a}
+
+/* ─ DASHBOARD ─ */
+.ev-card{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--rl);padding:15px;margin-bottom:8px;display:flex;gap:14px;align-items:flex-start}
+.ev-date{background:var(--red);border-radius:var(--r);padding:7px 11px;text-align:center;min-width:46px;flex-shrink:0}
+.ev-d{font-family:var(--fd);font-size:22px;color:#fff;line-height:1}
+.ev-m{font-family:var(--fc);font-size:9px;color:rgba(255,255,255,.75);letter-spacing:2px}
+.ev-nm{font-family:var(--fd);font-size:14px;letter-spacing:1px;color:#fff;margin-bottom:2px}
+.ev-vn{font-family:var(--fc);font-size:11px;color:var(--muted);margin-bottom:5px}
+.pr{margin-bottom:8px}
+.pr-l{display:flex;justify-content:space-between;font-family:var(--fc);font-size:10px;color:var(--muted);margin-bottom:3px}
+.pr-b{background:var(--surf3);height:5px;border-radius:9px;overflow:hidden}
+.pr-f{height:100%;border-radius:9px}
+.pr-f.pr{background:var(--red)}.pr-f.pg{background:var(--grn-lt)}.pr-f.po{background:#c8a84b}
+.wc-r{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--bdr)}
+.wc-r:last-child{border:none}
+.wc-n{font-family:var(--fc);font-size:12px;font-weight:700;color:#fff;min-width:130px}
+.wc-rg{font-family:var(--fc);font-size:11px;color:var(--muted);min-width:95px}
+.wc-b{flex:1;background:var(--surf3);height:4px;border-radius:9px;overflow:hidden}
+.wc-f{height:100%;background:linear-gradient(90deg,var(--grn),var(--red));border-radius:9px}
+.wc-c{font-family:var(--fd);font-size:15px;color:var(--red);min-width:28px;text-align:right}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.card{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--rl);padding:16px;margin-bottom:14px}
+.pair-card{background:var(--surf2);border:1px solid var(--bdr2);border-radius:var(--rl);padding:14px;margin-bottom:8px;position:relative;border-left:3px solid var(--grn)}
+.pair-sc{position:absolute;top:10px;right:10px;background:var(--surf3);border:1px solid var(--bdr);border-radius:var(--r);padding:2px 8px;font-family:var(--fd);font-size:14px;color:var(--grn-lt)}
+.kd{display:flex;height:2px;border-radius:9px;overflow:hidden;margin:12px 0}
+.kd b{flex:1}.kd b:nth-child(1){background:#111;border:1px solid #2a2a2a}.kd b:nth-child(2){background:var(--red)}.kd b:nth-child(3){background:var(--grn)}.kd b:nth-child(4){background:#F5F0E8}
+.tr-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px}
+</style>
+</head>
+<body>
+<div id="wrap">
+
+<!-- SIDEBAR -->
+<nav id="sidebar">
+  <div class="s-logo">
+    <div class="s-flag"><b></b><b></b><b></b><b></b></div>
+    <div class="s-title">BFK Admin</div>
+    <div class="s-sub">Boxing Federation of Kenya</div>
+  </div>
+  <div class="s-sec">Core</div>
+  <div class="nav on" data-view="dashboard"><span class="ic">⚡</span> Dashboard</div>
+  <div class="nav" data-view="fighters"><span class="ic">🥊</span> Fighters <span class="nb g" id="nb-f"></span></div>
+  <div class="nav" data-view="clubs"><span class="ic">🏟</span> Clubs &amp; Coaches</div>
+  <div class="s-sec">Competition</div>
+  <div class="nav" data-view="bouts"><span class="ic">📋</span> Bouts &amp; Events</div>
+  <div class="nav" data-view="wc"><span class="ic">⚖</span> Weight Classes</div>
+  <div class="nav" data-view="titles"><span class="ic">🏆</span> Titles &amp; Belts</div>
+  <div class="s-sec">Medical &amp; Compliance</div>
+  <div class="nav" data-view="medical"><span class="ic">🩺</span> Medical Records</div>
+  <div class="nav" data-view="suspensions"><span class="ic">🚫</span> Suspensions <span class="nb r" id="nb-s"></span></div>
+  <div class="s-sec">Matchmaking</div>
+  <div class="nav" data-view="matchmaking"><span class="ic">🎯</span> Matchmaking Pool</div>
+  <div class="nav" data-view="suggest"><span class="ic">✨</span> Match Suggestions</div>
+  <div class="s-bot">
+    <div class="s-av">BFK</div>
+    <div>
+      <div style="font-family:var(--fc);font-size:13px;font-weight:600;color:var(--text)">BFK Admin</div>
+      <div style="font-size:11px;color:var(--muted)">Head Administrator</div>
+    </div>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<div id="main">
+  <div id="topbar">
+    <div class="tb-l">
+      <div class="tb-title" id="pg-title">DASHBOARD</div>
+      <div class="tb-bc">BFK Admin / <em id="pg-sub">Overview</em></div>
+    </div>
+    <div class="tb-r">
+      <div class="srch">
+        <span class="si">🔍</span>
+        <input id="gs-inp" type="text" placeholder="Search fighters, clubs…" autocomplete="off"/>
+        <div class="sdrop" id="gs-drop"></div>
+      </div>
+      <button class="btn grn" id="reg-btn">＋ Register Fighter</button>
+    </div>
+  </div>
+
+  <div id="content">
+
+    <!-- DASHBOARD -->
+    <div id="view-dashboard" class="view on">
+      <div id="d-stats" class="sg"></div>
+      <div class="two">
+        <div>
+          <div class="sh"><div class="st">UPCOMING <em>EVENTS</em></div></div>
+          <div id="d-events"></div>
+        </div>
+        <div>
+          <div class="st" style="margin-bottom:10px">WEIGHT CLASS <em>DISTRIBUTION</em></div>
+          <div class="card" id="d-wc"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FIGHTERS -->
+    <div id="view-fighters" class="view">
+      <div id="f-stats" class="sg" style="grid-template-columns:repeat(4,1fr)"></div>
+      <div class="tw">
+        <div class="tt">
+          <div class="sb"><span>🔍</span><input id="f-q" type="text" placeholder="Search fighters…"/></div>
+          <div style="display:flex;gap:7px;flex-wrap:wrap">
+            <select class="fsel" id="f-county"><option value="">All Counties</option></select>
+            <select class="fsel" id="f-status"><option value="">All Status</option><option value="active">Active</option><option value="suspended">Suspended</option><option value="inactive">Inactive</option></select>
+            <button class="btn red" id="add-f-btn">＋ Add Fighter</button>
+          </div>
+        </div>
+        <table><thead><tr><th>Fighter</th><th>Licence</th><th>Division</th><th>Record</th><th>County</th><th>Club</th><th>Status</th><th></th></tr></thead>
+        <tbody id="f-tbody"></tbody></table>
+        <div id="f-pg" style="display:none"></div>
+      </div>
+    </div>
+
+    <!-- CLUBS & COACHES -->
+    <div id="view-clubs" class="view">
+      <div class="sh"><div class="st">CLUBS <em>&amp; COACHES</em></div></div>
+      <div class="tw">
+        <div class="tt"><div class="sb"><span>🔍</span><input id="c-q" type="text" placeholder="Search clubs…"/></div></div>
+        <table><thead><tr><th>Club Name</th><th>Affiliation No.</th><th>County</th><th>Type</th><th>Fighters</th><th>Status</th><th></th></tr></thead>
+        <tbody id="c-tbody"></tbody></table>
+      </div>
+      <div class="st" style="margin-bottom:12px">LICENSED <em>COACHES</em></div>
+      <div class="tw">
+        <table><thead><tr><th>Coach</th><th>Licence</th><th>Club</th><th>Status</th><th></th></tr></thead>
+        <tbody id="co-tbody"></tbody></table>
+      </div>
+    </div>
+
+    <!-- BOUTS & EVENTS -->
+    <div id="view-bouts" class="view">
+      <div class="tabbar">
+        <button class="tb on" data-tab="tab-events">Events</button>
+        <button class="tb" data-tab="tab-bouts">Bout Results</button>
+      </div>
+      <div id="tab-events" class="tc on">
+        <div class="sh"><div class="st">EVENTS</div></div>
+        <div class="tw"><table><thead><tr><th>Event</th><th>Date</th><th>Venue</th><th>Type</th><th>Body</th><th>Status</th><th></th></tr></thead>
+        <tbody id="ev-tbody"></tbody></table></div>
+      </div>
+      <div id="tab-bouts" class="tc">
+        <div class="sh"><div class="st">BOUT RESULTS</div></div>
+        <div class="tw"><table><thead><tr><th>ID</th><th>Fighter A</th><th>Fighter B</th><th>Division</th><th>Method</th><th>Rounds</th><th>Event</th><th></th></tr></thead>
+        <tbody id="bout-tbody"></tbody></table></div>
+      </div>
+    </div>
+
+    <!-- WEIGHT CLASSES -->
+    <div id="view-wc" class="view">
+      <div id="wc-body"></div>
+    </div>
+
+    <!-- TITLES -->
+    <div id="view-titles" class="view">
+      <div class="sh"><div class="st">TITLES <em>&amp; BELTS</em></div></div>
+      <div class="tw"><table><thead><tr><th>Title</th><th>Body</th><th>Holder</th><th>Division</th><th>Won</th><th>Status</th><th></th></tr></thead>
+      <tbody id="t-tbody"></tbody></table></div>
+    </div>
+
+    <!-- MEDICAL -->
+    <div id="view-medical" class="view">
+      <div class="sh"><div class="st">MEDICAL <em>RECORDS</em></div></div>
+      <div id="med-al"></div>
+      <div class="tw"><table><thead><tr><th>Fighter</th><th>Exam Date</th><th>Doctor</th><th>BP</th><th>ECG</th><th>Cleared</th><th>Expiry</th><th></th></tr></thead>
+      <tbody id="med-tbody"></tbody></table></div>
+    </div>
+
+    <!-- SUSPENSIONS -->
+    <div id="view-suspensions" class="view">
+      <div class="sh"><div class="st">SUSPENSIONS <em>&amp; HOLDS</em></div></div>
+      <div id="susp-al"></div>
+      <div class="tw"><table><thead><tr><th>Fighter</th><th>Type</th><th>Reason</th><th>Start</th><th>End</th><th>Imposed By</th><th>Status</th><th></th></tr></thead>
+      <tbody id="susp-tbody"></tbody></table></div>
+    </div>
+
+    <!-- MATCHMAKING POOL -->
+    <div id="view-matchmaking" class="view">
+      <div class="sh"><div class="st">MATCHMAKING <em>POOL</em></div></div>
+      <div id="pool-stats" class="sg" style="grid-template-columns:repeat(3,1fr)"></div>
+      <div class="tw">
+        <div class="tt">
+          <div class="sb"><span>🔍</span><input id="pool-q" type="text" placeholder="Search pool…"/></div>
+          <select class="fsel" id="pool-wc"><option value="">All Divisions</option></select>
+        </div>
+        <table><thead><tr><th>Fighter</th><th>Division</th><th>Record</th><th>Level</th><th>Bout Type</th><th>Available</th><th>Status</th><th></th></tr></thead>
+        <tbody id="pool-tbody"></tbody></table>
+      </div>
+    </div>
+
+    <!-- SUGGESTIONS -->
+    <div id="view-suggest" class="view">
+      <div class="sh"><div class="st">MATCH <em>SUGGESTIONS</em></div><button class="btn grn" id="gen-btn">⚙ Generate Matches</button></div>
+      <div id="sug-body"><div class="emp">Click "Generate Matches" to run the matchmaking algorithm.</div></div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+</div><!-- /wrap -->
+
+<!-- DETAIL MODAL -->
+<div class="mo" id="mo-detail">
+  <div class="mp">
+    <div class="mh">
+      <div><div class="mt" id="mo-title">—</div><div class="mst" id="mo-sub"></div></div>
+      <div class="mx" id="mo-close">✕</div>
+    </div>
+    <div class="mb" id="mo-body"></div>
+    <div class="mf" id="mo-foot"><button class="btn" id="mo-close2">Close</button></div>
+  </div>
+</div>
+
+<!-- ADD FIGHTER MODAL -->
+<div class="mo" id="mo-add-f">
+  <div class="mp">
+    <div class="mh"><div class="mt">REGISTER FIGHTER</div><div class="mx" data-close="mo-add-f">✕</div></div>
+    <div class="mb">
+      <div class="er" id="nf-err" style="display:none"></div>
+      <div style="font-family:var(--fd);font-size:12px;letter-spacing:2px;color:var(--red);margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--bdr)">🪪 IDENTITY &amp; PERSONAL</div>
+      <div class="fg" style="margin-bottom:16px">
+        <div class="fgr"><label class="fl">First Name *</label><input class="fi2" id="nf-first" placeholder="Evans"/></div>
+        <div class="fgr"><label class="fl">Last Name *</label><input class="fi2" id="nf-last" placeholder="Omondi"/></div>
+        <div class="fgr"><label class="fl">Nickname</label><input class="fi2" id="nf-nick" placeholder="The Kisumu Kid"/></div>
+        <div class="fgr"><label class="fl">Date of Birth</label><input class="fi2" id="nf-dob" type="date"/></div>
+        <div class="fgr"><label class="fl">Gender *</label><select class="fsel2" id="nf-gender"><option value="male">Male</option><option value="female">Female</option></select></div>
+        <div class="fgr"><label class="fl">Blood Type</label><select class="fsel2" id="nf-blood"><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>O+</option><option>O-</option><option>AB+</option><option>AB-</option></select></div>
+        <div class="fgr"><label class="fl">National ID</label><input class="fi2" id="nf-id" placeholder="ID Number"/></div>
+        <div class="fgr"><label class="fl">Stance</label><select class="fsel2" id="nf-stance"><option value="orthodox">Orthodox</option><option value="southpaw">Southpaw</option><option value="switch">Switch</option></select></div>
+      </div>
+      <div style="font-family:var(--fd);font-size:12px;letter-spacing:2px;color:var(--red);margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--bdr)">📍 CONTACT</div>
+      <div class="fg">
+        <div class="fgr"><label class="fl">County *</label><select class="fsel2" id="nf-county"><option>Nairobi</option><option>Mombasa</option><option>Kisumu</option><option>Kiambu</option><option>Eldoret</option><option>Nakuru</option><option>Meru</option><option>Nakuru</option><option>Machakos</option></select></div>
+        <div class="fgr"><label class="fl">Town</label><input class="fi2" id="nf-town" placeholder="Westlands"/></div>
+        <div class="fgr"><label class="fl">Phone *</label><input class="fi2" id="nf-phone" placeholder="+254 7XX XXX XXX"/></div>
+        <div class="fgr"><label class="fl">Email</label><input class="fi2" id="nf-email" type="email" placeholder="Optional"/></div>
+      </div>
+    </div>
+    <div class="mf">
+      <button class="btn" data-close="mo-add-f">Cancel</button>
+      <button class="btn red" id="nf-save">✓ Register Fighter</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+'use strict';
+
+// ─────────────────────────────────────────────
+// UTILS
+// ─────────────────────────────────────────────
+function esc(s) { return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function ini(name) { return String(name||'').trim().split(/\s+/).map(w=>w[0]||'').join('').slice(0,2).toUpperCase(); }
+function fd(d) {
+  if (!d) return '—';
+  try { return new Date(d).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}); }
+  catch(e) { return String(d); }
+}
+function ld() { return '<div class="ld"><div class="ld-dot"></div><div class="ld-dot"></div><div class="ld-dot"></div><span>Loading…</span></div>'; }
+function er(msg) { return '<div class="er">⚠ '+esc(msg)+'</div>'; }
+function emp(msg) { return '<div class="emp">'+esc(msg)+'</div>'; }
+
+function bdg(txt, cls) { return '<span class="bdg '+cls+'">'+esc(txt)+'</span>'; }
+function sbdg(s) { var m={active:'bg',suspended:'br',inactive:'bw',retired:'bw',deceased:'bw'}; return bdg(s||'—',m[String(s||'').toLowerCase()]||'bw'); }
+function evbdg(s) { var m={upcoming:'bb',completed:'bw',in_progress:'bg',cancelled:'br',draft:'by'}; return bdg(s||'—',m[String(s||'').toLowerCase()]||'bw'); }
+function mbdg(m) { return bdg(m||'—',['KO','TKO','TKO_medical','TKO_corner'].indexOf(m)>=0?'br':'bw'); }
+function di(lbl,val,cls) { return '<div class="di"><div class="di-l">'+esc(lbl)+'</div><div class="di-v'+(cls?' '+cls:'')+'">'+( val!=null?val:'—' )+'</div></div>'; }
+
+// ─────────────────────────────────────────────
+// API
+// ─────────────────────────────────────────────
+async function api(path, opts) {
+  var r = await fetch(path, opts||{});
+  if (!r.ok) { var t=''; try{t=await r.text();}catch(e){t=r.statusText;} throw new Error(t||r.statusText); }
+  return r.json();
+}
+
+// ─────────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────────
+var _f=[], _c=[], _co=[], _pool=[];
+var fPage=1, PER=20;
+var loaded={};
+
+// ─────────────────────────────────────────────
+// NAVIGATION
+// ─────────────────────────────────────────────
+var VIEW_TITLES = {dashboard:'DASHBOARD',fighters:'FIGHTERS',clubs:'CLUBS & COACHES',bouts:'BOUTS & EVENTS',wc:'WEIGHT CLASSES',titles:'TITLES & BELTS',medical:'MEDICAL RECORDS',suspensions:'SUSPENSIONS',matchmaking:'MATCHMAKING POOL',suggest:'MATCH SUGGESTIONS'};
+var VIEW_SUBS   = {dashboard:'Overview',fighters:'Manage Fighters',clubs:'Clubs & Coaching Staff',bouts:'Events, Bouts & Results',wc:'BFK & KPBC Divisions',titles:'Championships & Belts',medical:'Examinations & Clearance',suspensions:'Active Bans & Holds',matchmaking:'Available Pool',suggest:'Algorithm Results'};
+var VIEW_LOAD   = {fighters:loadFighters,clubs:loadClubs,bouts:loadBouts,wc:loadWC,titles:loadTitles,medical:loadMedical,suspensions:loadSuspensions,matchmaking:loadPool};
+
+document.querySelectorAll('.nav[data-view]').forEach(function(el) {
+  el.addEventListener('click', function() { showView(el.getAttribute('data-view')); });
+});
+
+function showView(id) {
+  document.querySelectorAll('.view').forEach(function(v){ v.classList.remove('on'); });
+  document.querySelectorAll('.nav').forEach(function(n){ n.classList.remove('on'); });
+  var vEl = document.getElementById('view-'+id);
+  if (vEl) vEl.classList.add('on');
+  document.querySelectorAll('.nav[data-view="'+id+'"]').forEach(function(n){ n.classList.add('on'); });
+  document.getElementById('pg-title').textContent = VIEW_TITLES[id]||id.toUpperCase();
+  document.getElementById('pg-sub').textContent = VIEW_SUBS[id]||id;
+  if (!loaded[id] && VIEW_LOAD[id]) { loaded[id]=true; VIEW_LOAD[id](); }
+}
+
+// ─────────────────────────────────────────────
+// MODAL
+// ─────────────────────────────────────────────
+function openModal(id) { document.getElementById(id).classList.add('on'); document.body.style.overflow='hidden'; }
+function closeModal(id) { document.getElementById(id).classList.remove('on'); document.body.style.overflow=''; }
+
+document.getElementById('mo-close').addEventListener('click', function(){ closeModal('mo-detail'); });
+document.getElementById('mo-close2').addEventListener('click', function(){ closeModal('mo-detail'); });
+document.getElementById('mo-detail').addEventListener('click', function(e){ if(e.target===this) closeModal('mo-detail'); });
+
+document.querySelectorAll('[data-close]').forEach(function(el){
+  el.addEventListener('click', function(){ closeModal(el.getAttribute('data-close')); });
+});
+document.getElementById('mo-add-f').addEventListener('click', function(e){ if(e.target===this) closeModal('mo-add-f'); });
+
+document.addEventListener('keydown', function(e){ if(e.key==='Escape') { closeModal('mo-detail'); closeModal('mo-add-f'); } });
+
+document.getElementById('reg-btn').addEventListener('click', function(){ openModal('mo-add-f'); });
+document.getElementById('add-f-btn').addEventListener('click', function(){ openModal('mo-add-f'); });
+
+function showDetail(title, sub, html, footExtra) {
+  document.getElementById('mo-title').textContent = title;
+  document.getElementById('mo-sub').textContent = sub||'';
+  document.getElementById('mo-body').innerHTML = html;
+  document.getElementById('mo-foot').innerHTML = (footExtra||'')+'<button class="btn" id="mo-close2">Close</button>';
+  document.getElementById('mo-close2').addEventListener('click', function(){ closeModal('mo-detail'); });
+  openModal('mo-detail');
+}
+
+// ─────────────────────────────────────────────
+// TABS (bouts view)
+// ─────────────────────────────────────────────
+document.querySelectorAll('.tabbar .tb').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var bar = btn.closest('.tabbar');
+    bar.querySelectorAll('.tb').forEach(function(b){ b.classList.remove('on'); });
+    btn.classList.add('on');
+    var tid = btn.getAttribute('data-tab');
+    var ctx = btn.closest('.view')||document;
+    ctx.querySelectorAll('.tc').forEach(function(t){ t.classList.remove('on'); });
+    var tel = document.getElementById(tid);
+    if (tel) tel.classList.add('on');
+  });
+});
+
+// Modal-internal tabs (injected HTML) — use event delegation
+document.getElementById('mo-body').addEventListener('click', function(e){
+  var btn = e.target.closest('.tb');
+  if (!btn) return;
+  var bar = btn.closest('.tabbar');
+  if (!bar) return;
+  bar.querySelectorAll('.tb').forEach(function(b){ b.classList.remove('on'); });
+  btn.classList.add('on');
+  var tid = btn.getAttribute('data-tab');
+  var ctx = btn.closest('.mb')||document.getElementById('mo-body');
+  ctx.querySelectorAll('.tc').forEach(function(t){ t.classList.remove('on'); });
+  var tel = document.getElementById(tid);
+  if (tel) tel.classList.add('on');
+});
+
+// ─────────────────────────────────────────────
+// DASHBOARD
+// ─────────────────────────────────────────────
+async function loadDashboard() {
+  var ds = document.getElementById('d-stats');
+  var de = document.getElementById('d-events');
+  var dw = document.getElementById('d-wc');
+  ds.innerHTML = ld(); de.innerHTML = ld(); dw.innerHTML = ld();
+  try {
+    var d = await api('/dashboard');
+    var f = d.fighters||{};
+    ds.innerHTML =
+      '<div class="sc r"><div class="sc-ic">🥊</div><div class="sc-lbl">Active Fighters</div><div class="sc-val">'+(f.active||0)+'</div><div class="sc-sub">'+(f.total||0)+' total</div></div>'+
+      '<div class="sc g"><div class="sc-ic">🏟</div><div class="sc-lbl">Clubs</div><div class="sc-val">'+(d.clubs||0)+'</div></div>'+
+      '<div class="sc w"><div class="sc-ic">📋</div><div class="sc-lbl">Events</div><div class="sc-val">'+((d.events||{}).total||0)+'</div><div class="sc-sub">'+((d.events||{}).upcoming||[]).length+' upcoming</div></div>'+
+      '<div class="sc o"><div class="sc-ic">🏆</div><div class="sc-lbl">Active Titles</div><div class="sc-val">'+((d.titles||{}).active||0)+'</div></div>'+
+      '<div class="sc r"><div class="sc-ic">🚫</div><div class="sc-lbl">Suspensions</div><div class="sc-val">'+((d.suspensions||{}).active||0)+'</div></div>'+
+      '<div class="sc g"><div class="sc-ic">🎯</div><div class="sc-lbl">Pool Available</div><div class="sc-val">'+((d.matchmaking||{}).pool_available||0)+'</div></div>';
+
+    // suspension badge
+    var susp_ct = (d.suspensions||{}).active||0;
+    var nbs = document.getElementById('nb-s');
+    if (nbs) { nbs.textContent = susp_ct||''; nbs.style.display = susp_ct?'':'none'; }
+
+    // upcoming events
+    var evs = ((d.events||{}).upcoming||[]);
+    if (!evs.length) { de.innerHTML = emp('No upcoming events'); }
+    else {
+      de.innerHTML = evs.map(function(e) {
+        var dt = e.date ? new Date(e.date) : null;
+        return '<div class="ev-card">'+
+          '<div class="ev-date"><div class="ev-d">'+(dt?dt.getDate():'—')+'</div><div class="ev-m">'+(dt?dt.toLocaleString('default',{month:'short'}).toUpperCase():'—')+'</div></div>'+
+          '<div><div class="ev-nm">'+esc(e.name)+'</div><div class="ev-vn">📍 '+esc(e.venue||'')+(e.county?', '+esc(e.county):'')+'</div>'+
+          '<div class="tr-tags">'+bdg(e.type||'Event','bg')+(e.body?bdg(e.body,'bw'):'')+'</div></div>'+
+          '</div>';
+      }).join('');
+    }
+
+    // weight class distribution
+    var wcd = d.weight_class_distribution||[];
+    var maxC = Math.max.apply(null,[1].concat(wcd.map(function(r){return r.count||0;})));
+    if (!wcd.length) { dw.innerHTML = emp('No pool data yet'); }
+    else {
+      dw.innerHTML = wcd.map(function(r){
+        var pct = Math.round((r.count||0)/maxC*100);
+        var cl = pct>60?'pr':pct>30?'pg':'po';
+        return '<div class="pr"><div class="pr-l"><span>'+esc(r.name)+(r.gender?' ('+esc(r.gender)+')':'')+'</span><span>'+(r.count||0)+'</span></div><div class="pr-b"><div class="pr-f '+cl+'" style="width:'+pct+'%"></div></div></div>';
+      }).join('');
+    }
+  } catch(e) {
+    ds.innerHTML = er('Dashboard failed: '+e.message+'. Is the server running?');
+    de.innerHTML = ''; dw.innerHTML = '';
+  }
+}
+
+// ─────────────────────────────────────────────
+// FIGHTERS
+// ─────────────────────────────────────────────
+async function loadFighters() {
+  setTBody('f-tbody',8,ld());
+  try {
+    _f = await api('/fighters/');
+    // county filter
+    var counties = unique(_f.map(function(f){return f.county;}).filter(Boolean)).sort();
+    var csel = document.getElementById('f-county');
+    csel.innerHTML = '<option value="">All Counties</option>'+counties.map(function(c){return '<option value="'+esc(c)+'">'+esc(c)+'</option>';}).join('');
+    // nav badge
+    var nb = document.getElementById('nb-f');
+    if (nb) { nb.textContent = _f.length; nb.style.display = _f.length?'':'none'; }
+    // stats
+    var act = _f.filter(function(x){return x.status==='active';}).length;
+    var susp = _f.filter(function(x){return x.status==='suspended';}).length;
+    document.getElementById('f-stats').innerHTML =
+      '<div class="sc r"><div class="sc-lbl">Total</div><div class="sc-val">'+_f.length+'</div></div>'+
+      '<div class="sc g"><div class="sc-lbl">Active</div><div class="sc-val">'+act+'</div></div>'+
+      '<div class="sc r"><div class="sc-lbl">Suspended</div><div class="sc-val">'+susp+'</div></div>'+
+      '<div class="sc w"><div class="sc-lbl">Inactive</div><div class="sc-val">'+(_f.length-act-susp)+'</div></div>';
+    fPage=1; renderFighters();
+  } catch(e) { setTBody('f-tbody',8,er(e.message)); }
+}
+
+function filtF() {
+  var q = (document.getElementById('f-q').value||'').toLowerCase();
+  var county = document.getElementById('f-county').value;
+  var status = document.getElementById('f-status').value;
+  return _f.filter(function(f){
+    var nm = ((f.first_name||'')+' '+(f.last_name||'')+' '+(f.nickname||'')+' '+(f.licence_number||'')).toLowerCase();
+    if (q && nm.indexOf(q)<0) return false;
+    if (county && f.county!==county) return false;
+    if (status && f.status!==status) return false;
+    return true;
+  });
+}
+
+function renderFighters() { fPage=1; _rfPage(); }
+
+function _rfPage() {
+  var all = filtF(), total=all.length, start=(fPage-1)*PER, page=all.slice(start,start+PER);
+  var tb = document.getElementById('f-tbody');
+  var pg = document.getElementById('f-pg');
+  if (!page.length) { tb.innerHTML='<tr><td colspan="8">'+emp('No fighters found')+'</td></tr>'; pg.style.display='none'; return; }
+  tb.innerHTML = page.map(function(f){
+    var rec=f.boxing_record||f.record||{};
+    var w=rec.wins||rec.w||0, l=rec.losses||rec.l||0, d=rec.draws||rec.d||0;
+    var club=f.club_name||(f.clubs&&f.clubs[0]?f.clubs[0].name:'')||'—';
+    var wc=f.weight_class_name||(f.weight_classes&&f.weight_classes[0]?f.weight_classes[0].name:'')||'—';
+    var init=ini((f.first_name||'')+' '+(f.last_name||''));
+    return '<tr>'+
+      '<td><div class="fi"><div class="av">'+init+'</div><div><div class="fn">'+esc(f.first_name||'')+' '+esc(f.last_name||'')+'</div>'+(f.nickname?'<div class="fnk">"'+esc(f.nickname)+'"</div>':'')+'</div></div></td>'+
+      '<td class="tmono">'+esc(f.licence_number||'—')+'</td>'+
+      '<td>'+(wc!=='—'?bdg(wc,'bw'):'—')+'</td>'+
+      '<td><span style="color:var(--grn-lt);font-family:var(--fd);font-size:14px">'+w+'</span><span class="tm">-</span><span style="color:var(--red);font-family:var(--fd);font-size:14px">'+l+'</span><span class="tm">-'+d+'</span></td>'+
+      '<td class="tm">'+esc(f.county||'—')+'</td>'+
+      '<td class="tm">'+esc(club)+'</td>'+
+      '<td>'+sbdg(f.status)+'</td>'+
+      '<td><div class="ibtns"><button class="ib v" data-action="view-fighter" data-id="'+f.id+'" title="View">👁</button><button class="ib" data-action="del-fighter" data-id="'+f.id+'" title="Delete">🗑</button></div></td>'+
+      '</tr>';
+  }).join('');
+  // Pagination
+  var pages=Math.ceil(total/PER);
+  if (pages<=1){pg.style.display='none';return;}
+  pg.style.display='flex'; pg.className='pg';
+  var btns='<button class="pg-b" data-fp="'+(fPage-1)+'" '+(fPage===1?'disabled':'')+'>‹</button>';
+  for(var i=1;i<=pages;i++) btns+='<button class="pg-b'+(i===fPage?' on':'')+'" data-fp="'+i+'">'+i+'</button>';
+  btns+='<button class="pg-b" data-fp="'+(fPage+1)+'" '+(fPage===pages?'disabled':'')+'>›</button>';
+  pg.innerHTML='<div class="pg-inf">Showing '+(start+1)+'–'+Math.min(start+PER,total)+' of '+total+'</div><div class="pg-bts">'+btns+'</div>';
+}
+
+// Event delegation for fighter table actions + pagination
+document.getElementById('f-tbody').addEventListener('click', function(e){
+  var btn=e.target.closest('[data-action]'); if(!btn) return;
+  var id=btn.getAttribute('data-id');
+  if (btn.getAttribute('data-action')==='view-fighter') openFighter(id);
+  if (btn.getAttribute('data-action')==='del-fighter') delFighter(id);
+});
+document.getElementById('f-pg').addEventListener('click', function(e){
+  var btn=e.target.closest('[data-fp]'); if(!btn||btn.disabled) return;
+  fPage=parseInt(btn.getAttribute('data-fp'));
+  _rfPage();
+});
+// Filter inputs
+document.getElementById('f-q').addEventListener('input', renderFighters);
+document.getElementById('f-county').addEventListener('change', renderFighters);
+document.getElementById('f-status').addEventListener('change', renderFighters);
+
+async function openFighter(id) {
+  showDetail('Loading…','',ld(),'');
+  try {
+    var f = await api('/fighters/'+id);
+    var rec=f.boxing_record||f.record||{};
+    var w=rec.wins||rec.w||0, l=rec.losses||rec.l||0, d=rec.draws||rec.d||0;
+    var koW=(rec.wins_by_ko||rec.ko||0)+(rec.wins_by_tko||rec.tko||0);
+    var koRate=w>0?Math.round(koW/w*100):0;
+    var init=ini((f.first_name||'')+' '+(f.last_name||''));
+    var club=f.club_name||(f.clubs&&f.clubs[0]?f.clubs[0].name:'—')||'—';
+    var coach=f.coach_name||(f.coaches&&f.coaches[0]?(f.coaches[0].first_name+' '+f.coaches[0].last_name):'—')||'—';
+    var wc=f.weight_class_name||(f.weight_classes&&f.weight_classes[0]?f.weight_classes[0].name:'—')||'—';
+    var ph=(f.physical_measurements&&f.physical_measurements[0])||f.physical||{};
+    var medList=f.medical_records||[];
+    var med=medList[0]||f.medical||null;
+    var bouts=f.bouts||[];
+    var titles=f.titles||[];
+    var html=
+      '<div class="ph"><div class="pi">'+
+        '<div class="av2">'+init+'</div>'+
+        '<div class="pn">'+esc(f.first_name||'')+' '+esc(f.last_name||'')+'</div>'+
+        (f.nickname?'<div class="pnk">"'+esc(f.nickname)+'"</div>':'')+
+        '<div style="display:flex;gap:5px;flex-wrap:wrap">'+sbdg(f.status)+(wc!=='—'?bdg(wc,'bw'):'')+'</div>'+
+      '</div></div>'+
+      '<div class="rb">'+
+        '<div><div class="rv w">'+w+'</div><div class="rl">Wins</div></div>'+
+        '<div><div class="rv l">'+l+'</div><div class="rl">Losses</div></div>'+
+        '<div><div class="rv d">'+d+'</div><div class="rl">Draws</div></div>'+
+        '<div><div class="rv w">'+koW+'</div><div class="rl">KO/TKO</div></div>'+
+        '<div><div class="rv g">'+koRate+'%</div><div class="rl">KO Rate</div></div>'+
+      '</div>'+
+      '<div class="tabbar">'+
+        '<button class="tb on" data-tab="fpt-info">Info</button>'+
+        '<button class="tb" data-tab="fpt-bouts">Bouts ('+bouts.length+')</button>'+
+        '<button class="tb" data-tab="fpt-med">Medical</button>'+
+        '<button class="tb" data-tab="fpt-titles">Titles ('+titles.length+')</button>'+
+      '</div>'+
+      '<div id="fpt-info" class="tc on">'+
+        '<div class="dg">'+
+          di('Licence',esc(f.licence_number||'—'))+
+          di('DOB',fd(f.date_of_birth))+
+          di('Gender',esc(f.gender||'—'))+
+          di('Blood Type',esc(f.blood_type||'—'))+
+          di('County',esc(f.county||'—'))+
+          di('Town',esc(f.town||'—'))+
+          di('Phone',esc(f.phone||'—'))+
+          di('Stance',esc(f.stance||'—'))+
+        '</div>'+
+        '<div class="dt-sec">🏟 CLUB &amp; COACHING</div>'+
+        '<div class="dg">'+di('Club',esc(club))+di('Coach',esc(coach))+'</div>'+
+        '<div class="dt-sec">📏 PHYSICAL</div>'+
+        '<div class="dg3">'+
+          di('Weight',esc(ph.weight_kg?ph.weight_kg+' kg':(ph.weight||'—')))+
+          di('Height',esc(ph.height_cm?ph.height_cm+' cm':(ph.height||'—')))+
+          di('Reach',esc(ph.reach_cm?ph.reach_cm+' cm':(ph.reach||'—')))+
+        '</div>'+
+      '</div>'+
+      '<div id="fpt-bouts" class="tc">'+
+        (!bouts.length?emp('No recorded bouts yet'):bouts.map(function(b){
+          var isA=String(b.fighter_a_id)===String(f.id);
+          var opp=esc(isA?(b.fighter_b_name||'—'):(b.fighter_a_name||'—'));
+          var res='S';
+          if (b.result==='draw'||b.result==='no_contest'||b.result==='technical_draw') res='D';
+          else if (b.result&&((isA&&b.result==='fighter_a')||(!isA&&b.result==='fighter_b'))) res='W';
+          else if (b.result) res='L';
+          var rc=res==='W'?'bw':res==='L'?'bl':'bd';
+          return '<div class="br-row">'+
+            '<div class="brc '+rc+'" style="color:#fff">'+res+'</div>'+
+            '<div><div style="font-family:var(--fc);font-size:13px;font-weight:700;color:#fff">vs '+opp+'</div>'+
+            '<div style="font-size:11px;color:var(--muted)">'+esc(b.win_method||b.result||'Scheduled')+(b.win_round?' · Rd '+b.win_round:'')+(b.win_time?' · '+esc(b.win_time):'')+'</div></div>'+
+            '<div style="text-align:right"><div style="font-size:11px;color:var(--muted)">'+esc(b.event_name||'—')+'</div><div style="font-size:11px;color:var(--dim)">'+fd(b.event_date||b.date)+'</div></div>'+
+            '</div>';
+        }).join(''))+
+      '</div>'+
+      '<div id="fpt-med" class="tc">'+
+        (!med?'<div class="al y">⚠ No medical record on file</div>':
+         (med.cleared_to_compete?'<div class="al g">✓ Medically cleared — valid until '+esc(med.licence_expiry||'—')+'</div>':
+          '<div class="al r">✗ NOT CLEARED — suspended pending re-examination</div>'))+
+        (med?'<div class="dg">'+
+          di('Blood Pressure',esc(med.blood_pressure||med.bp||'—'),String(med.blood_pressure||'').match(/^1[4-9]/)?'warn':'ok')+
+          di('ECG',esc(med.ecg_result||med.ecg||'—'),String(med.ecg_result||'').toLowerCase()==='normal'?'ok':'warn')+
+          di('HIV',esc(med.hiv_status||med.hiv||'—'))+
+          di('Hepatitis',esc(med.hepatitis_status||med.hepatitis||'—'))+
+          di('Doctor',esc(med.doctor_name||med.doctor||'—'))+
+          di('Exam Date',fd(med.exam_date||med.date))+
+          di('Expiry',esc(med.licence_expiry||med.expiry||'—'),med.cleared_to_compete?'ok':'bad')+
+        '</div>'+(med.notes?'<div class="dt-sec">📝 NOTES</div><div style="background:var(--surf2);border:1px solid var(--bdr);border-radius:var(--r);padding:12px;font-size:13px;color:var(--muted);line-height:1.6">'+esc(med.notes||'')+'</div>':''):'') +
+      '</div>'+
+      '<div id="fpt-titles" class="tc">'+
+        (!titles.length?emp('No titles held'):titles.map(function(t){
+          return '<div style="background:var(--surf2);border:1px solid var(--bdr);border-radius:var(--r);padding:14px;display:flex;gap:12px;align-items:center;margin-bottom:8px">'+
+            '<div style="font-size:32px">🏆</div>'+
+            '<div><div style="font-family:var(--fd);font-size:15px;color:#c8a84b">'+esc(t.name||t.title_name||'—')+'</div>'+
+            '<div style="font-family:var(--fc);font-size:11px;color:var(--muted)">'+esc(t.governing_body||t.body||'')+' · Won: '+fd(t.date_won||t.won_date)+'</div>'+
+            '<div style="margin-top:5px">'+bdg(t.is_active?'Active':'Vacated',t.is_active?'bg':'br')+'</div></div>'+
+          '</div>';
+        }).join(''))+
+      '</div>';
+    showDetail(((f.first_name||'')+' '+(f.last_name||'')).toUpperCase()+' — PROFILE', wc+' · Lic: '+(f.licence_number||'—'), html, '');
+  } catch(e) { document.getElementById('mo-body').innerHTML=er('Failed to load fighter: '+e.message); }
+}
+
+async function delFighter(id) {
+  if (!confirm('Delete this fighter? This cannot be undone.')) return;
+  try {
+    var r=await fetch('/fighters/'+id,{method:'DELETE'});
+    if(!r.ok) throw new Error(r.statusText);
+    loaded.fighters=false; loadFighters();
+  } catch(e) { alert('Delete failed: '+e.message); }
+}
+
+// Save fighter form
+document.getElementById('nf-save').addEventListener('click', async function(){
+  var errEl=document.getElementById('nf-err');
+  errEl.style.display='none';
+  var body={
+    first_name: document.getElementById('nf-first').value.trim(),
+    last_name:  document.getElementById('nf-last').value.trim(),
+    nickname:   document.getElementById('nf-nick').value.trim()||null,
+    date_of_birth: document.getElementById('nf-dob').value||null,
+    gender:     document.getElementById('nf-gender').value,
+    blood_type: document.getElementById('nf-blood').value,
+    national_id_number: document.getElementById('nf-id').value.trim()||null,
+    county:     document.getElementById('nf-county').value,
+    town:       document.getElementById('nf-town').value.trim()||null,
+    phone:      document.getElementById('nf-phone').value.trim(),
+    email:      document.getElementById('nf-email').value.trim()||null,
+    stance:     document.getElementById('nf-stance').value,
+    status:     'active'
+  };
+  if (!body.first_name||!body.last_name||!body.phone) {
+    errEl.textContent='First name, last name and phone are required.';
+    errEl.style.display='block'; return;
+  }
+  try {
+    await api('/fighters/',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    closeModal('mo-add-f');
+    loaded.fighters=false; loadFighters();
+  } catch(e) { errEl.textContent='Error: '+e.message; errEl.style.display='block'; }
+});
+
+// ─────────────────────────────────────────────
+// CLUBS & COACHES
+// ─────────────────────────────────────────────
+async function loadClubs() {
+  setTBody('c-tbody',7,ld()); setTBody('co-tbody',5,ld());
+  try {
+    var res = await Promise.all([api('/clubs/'),api('/coaches/')]);
+    _c=res[0]; _co=res[1];
+    renderClubs(); renderCoaches();
+  } catch(e) { setTBody('c-tbody',7,er(e.message)); }
+}
+
+var cQ = document.getElementById('c-q');
+cQ.addEventListener('input', renderClubs);
+
+function renderClubs() {
+  var q=(cQ.value||'').toLowerCase();
+  var data=_c.filter(function(c){return ((c.name||'')+' '+(c.bfk_affiliation_no||'')+' '+(c.county||'')).toLowerCase().indexOf(q)>=0;});
+  var tb=document.getElementById('c-tbody');
+  if(!data.length){tb.innerHTML='<tr><td colspan="7">'+emp('No clubs found')+'</td></tr>';return;}
+  var tmap={mixed:'bb',professional:'bb',amateur:'by',Mixed:'bb',Professional:'bb',Amateur:'by'};
+  tb.innerHTML=data.map(function(c){
+    var t=c.club_type||c.type||'';
+    return '<tr>'+
+      '<td><strong style="color:#fff">'+esc(c.name)+'</strong></td>'+
+      '<td class="tmono">'+esc(c.bfk_affiliation_no||'—')+'</td>'+
+      '<td class="tm">'+esc(c.county||'—')+'</td>'+
+      '<td>'+bdg(t||'—',tmap[t]||'bw')+'</td>'+
+      '<td style="font-family:var(--fd);font-size:17px;color:var(--red)">'+(c.fighter_count||0)+'</td>'+
+      '<td>'+sbdg(c.status||'active')+'</td>'+
+      '<td><div class="ibtns"><button class="ib v" data-action="view-club" data-id="'+c.id+'" title="View">👁</button></div></td>'+
+      '</tr>';
+  }).join('');
+}
+
+function renderCoaches() {
+  var tb=document.getElementById('co-tbody');
+  if(!_co.length){tb.innerHTML='<tr><td colspan="5">'+emp('No coaches')+'</td></tr>';return;}
+  tb.innerHTML=_co.map(function(c){
+    var init=ini((c.first_name||'')+' '+(c.last_name||''));
+    var club=c.club_name||(c.clubs&&c.clubs[0]?c.clubs[0].name:'')||'—';
+    return '<tr>'+
+      '<td><div class="fi"><div class="av" style="background:var(--grn)">'+init+'</div><div class="fn">'+esc(c.first_name||'')+' '+esc(c.last_name||'')+'</div></div></td>'+
+      '<td class="tmono">'+esc(c.licence_number||'—')+'</td>'+
+      '<td class="tm">'+esc(club)+'</td>'+
+      '<td>'+sbdg(c.status||'active')+'</td>'+
+      '<td><div class="ibtns"><button class="ib v" data-action="view-coach" data-id="'+c.id+'" title="View">👁</button></div></td>'+
+      '</tr>';
+  }).join('');
+}
+
+// Event delegation for club/coach tables
+document.getElementById('c-tbody').addEventListener('click', function(e){
+  var btn=e.target.closest('[data-action]'); if(!btn) return;
+  if(btn.getAttribute('data-action')==='view-club') openClub(btn.getAttribute('data-id'));
+});
+document.getElementById('co-tbody').addEventListener('click', function(e){
+  var btn=e.target.closest('[data-action]'); if(!btn) return;
+  if(btn.getAttribute('data-action')==='view-coach') openCoach(btn.getAttribute('data-id'));
+});
+
+async function openClub(id) {
+  showDetail('Loading…','',ld(),'');
+  try {
+    var c=await api('/clubs/'+id);
+    var fighters=await api('/clubs/'+id+'/fighters').catch(function(){return [];});
+    var html=
+      '<div class="ph" style="margin-bottom:16px"><div class="pi" style="padding-top:42px">'+
+        '<div style="font-size:38px;margin-bottom:7px">🏟</div>'+
+        '<div class="pn">'+esc(c.name||'').toUpperCase()+'</div>'+
+        '<div style="font-family:var(--fc);font-size:11px;color:var(--muted);margin-top:3px">'+esc(c.club_type||c.type||'Club')+' · '+esc(c.county||'')+'</div>'+
+      '</div></div>'+
+      '<div class="dg">'+
+        di('Affiliation No.',esc(c.bfk_affiliation_no||'—'))+
+        di('Founded',esc(c.founded_year||c.founded||'—'))+
+        di('County',esc(c.county||'—'))+di('Town',esc(c.town||'—'))+
+        di('Phone',esc(c.phone||'—'))+di('Email',esc(c.email||'—'))+
+        di('Status',esc(c.status||'—'),'ok')+
+      '</div>'+
+      '<div class="dt-sec">🥊 FIGHTERS ('+fighters.length+')</div>'+
+      (fighters.length?fighters.map(function(f){return '<div style="background:var(--surf2);border:1px solid var(--bdr);border-radius:var(--r);padding:9px 12px;margin-bottom:5px;font-family:var(--fc);font-size:13px;color:#fff">🥊 '+esc(f.first_name||'')+' '+esc(f.last_name||'')+'</div>';}).join(''):emp('No fighters listed'));
+    showDetail(esc(c.name||'').toUpperCase(),'Affiliation: '+esc(c.bfk_affiliation_no||'—')+' · '+esc(c.county||''),html,'');
+  } catch(e){document.getElementById('mo-body').innerHTML=er(e.message);}
+}
+
+async function openCoach(id) {
+  showDetail('Loading…','',ld(),'');
+  try {
+    var c=await api('/coaches/'+id);
+    var init=ini((c.first_name||'')+' '+(c.last_name||''));
+    var club=c.club_name||(c.clubs&&c.clubs[0]?c.clubs[0].name:'')||'—';
+    var certs=c.certifications||[];
+    var html=
+      '<div class="ph" style="margin-bottom:16px"><div class="pi" style="padding-top:42px">'+
+        '<div class="av2" style="background:var(--grn)">'+init+'</div>'+
+        '<div class="pn">'+esc(c.first_name||'')+' '+esc(c.last_name||'')+'</div>'+
+        '<div style="font-family:var(--fc);font-size:11px;color:var(--muted);margin-top:3px">'+esc(club)+'</div>'+
+      '</div></div>'+
+      '<div class="dg">'+
+        di('Licence',esc(c.licence_number||'—'))+di('Club',esc(club))+
+        di('County',esc(c.county||'—'))+di('Phone',esc(c.phone||'—'))+
+        di('Status',esc(c.status||'—'),'ok')+
+      '</div>'+
+      (certs.length?'<div class="dt-sec">🎓 CERTIFICATIONS</div><div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">'+certs.map(function(ct){return bdg(ct,'bw');}).join('')+'</div>':'')+
+      (c.bio?'<div class="dt-sec">📋 BIO</div><div style="background:var(--surf2);border:1px solid var(--bdr);border-radius:var(--r);padding:12px;font-size:13px;color:var(--muted);line-height:1.6">'+esc(c.bio)+'</div>':'');
+    showDetail(((c.first_name||'')+' '+(c.last_name||'')).toUpperCase()+' — COACH','Licence: '+esc(c.licence_number||'—')+' · '+esc(club),html,'');
+  } catch(e){document.getElementById('mo-body').innerHTML=er(e.message);}
+}
+
+// ─────────────────────────────────────────────
+// BOUTS & EVENTS
+// ─────────────────────────────────────────────
+async function loadBouts() {
+  setTBody('ev-tbody',7,ld()); setTBody('bout-tbody',8,ld());
+  try {
+    var res=await Promise.all([api('/events/'),api('/bouts/')]);
+    var events=res[0], bouts=res[1];
+    document.getElementById('ev-tbody').innerHTML = !events.length?'<tr><td colspan="7">'+emp('No events')+'</td></tr>':
+      events.map(function(e){
+        return '<tr>'+
+          '<td><strong style="color:#fff">'+esc(e.name||'—')+'</strong></td>'+
+          '<td class="tm">'+fd(e.event_date||e.date)+'</td>'+
+          '<td class="tm">'+esc(e.venue||'—')+'</td>'+
+          '<td>'+bdg(e.event_type||e.type||'—',(e.event_type||e.type)==='professional'?'bb':'bg')+'</td>'+
+          '<td class="tm">'+esc(e.sanctioning_body||e.body||'—')+'</td>'+
+          '<td>'+evbdg(e.status)+'</td>'+
+          '<td><div class="ibtns"><button class="ib v" data-action="view-event" data-id="'+e.id+'" title="View">👁</button></div></td>'+
+          '</tr>';
+      }).join('');
+    document.getElementById('bout-tbody').innerHTML = !bouts.length?'<tr><td colspan="8">'+emp('No bouts')+'</td></tr>':
+      bouts.map(function(b){
+        var fa=esc(b.fighter_a_name||(b.fighter_a?b.fighter_a.first_name+' '+b.fighter_a.last_name:'—')||'—');
+        var fb=esc(b.fighter_b_name||(b.fighter_b?b.fighter_b.first_name+' '+b.fighter_b.last_name:'—')||'—');
+        return '<tr>'+
+          '<td class="tmono">#'+b.id+'</td>'+
+          '<td>'+(b.result==='fighter_a'?'<strong style="color:var(--grn-lt)">'+fa+' ✓</strong>':fa)+'</td>'+
+          '<td>'+(b.result==='fighter_b'?'<strong style="color:var(--grn-lt)">'+fb+' ✓</strong>':fb)+'</td>'+
+          '<td>'+(b.weight_class_name?bdg(b.weight_class_name,'bw'):'—')+'</td>'+
+          '<td>'+(b.win_method?mbdg(b.win_method):(b.result?bdg(b.result,'bw'):'<span class="tm">Scheduled</span>'))+'</td>'+
+          '<td class="tm">'+(b.win_round?'Rd '+b.win_round+(b.win_time?' · '+esc(b.win_time):''):(b.actual_rounds_fought?'Full '+b.actual_rounds_fought:'—'))+'</td>'+
+          '<td class="tm">'+esc(b.event_name||'—')+'</td>'+
+          '<td><div class="ibtns"><button class="ib v" data-action="view-bout" data-id="'+b.id+'" title="View">👁</button></div></td>'+
+          '</tr>';
+      }).join('');
+  } catch(e) { setTBody('ev-tbody',7,er(e.message)); }
+}
+
+document.getElementById('ev-tbody').addEventListener('click', function(e){
+  var btn=e.target.closest('[data-action]'); if(!btn)return;
+  if(btn.getAttribute('data-action')==='view-event') openEvent(btn.getAttribute('data-id'));
+});
+document.getElementById('bout-tbody').addEventListener('click', function(e){
+  var btn=e.target.closest('[data-action]'); if(!btn)return;
+  if(btn.getAttribute('data-action')==='view-bout') openBout(btn.getAttribute('data-id'));
+});
+
+async function openEvent(id){
+  showDetail('Loading…','',ld(),'');
+  try{
+    var e=await api('/events/'+id);
+    var bouts=e.bouts||[];
+    var html=
+      '<div class="ph" style="margin-bottom:16px"><div class="pi" style="padding-top:42px">'+
+        '<div style="font-size:36px;margin-bottom:7px">'+(e.status==='upcoming'?'📅':'✅')+'</div>'+
+        '<div class="pn">'+esc(e.name||'').toUpperCase()+'</div>'+
+        '<div style="font-family:var(--fc);font-size:11px;color:var(--muted);margin-top:3px">'+esc(e.venue||'')+' · '+esc(e.county||'')+'</div>'+
+        '<div style="display:flex;gap:5px;margin-top:6px">'+bdg(e.event_type||e.type||'event','bg')+evbdg(e.status)+'</div>'+
+      '</div></div>'+
+      '<div class="dg">'+
+        di('Date',fd(e.event_date||e.date))+di('Venue',esc(e.venue||'—'))+
+        di('County',esc(e.county||'—'))+di('Type',esc(e.event_type||e.type||'—'))+
+        di('Sanctioning Body',esc(e.sanctioning_body||e.body||'—'))+di('Status',esc(e.status||'—'))+
+      '</div>'+
+      '<div class="dt-sec">🥊 BOUT CARD ('+bouts.length+')</div>'+
+      (!bouts.length?emp('No bouts on card yet'):bouts.map(function(b,i){
+        return '<div style="background:var(--surf2);border:1px solid var(--bdr);border-radius:var(--r);padding:10px 14px;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between;gap:8px">'+
+          '<span style="font-family:var(--fd);font-size:12px;color:var(--red)">BOUT '+(i+1)+'</span>'+
+          '<span style="font-family:var(--fc);font-size:11px;color:var(--muted)">'+esc(b.weight_class_name||'—')+'</span>'+
+          '<span style="font-family:var(--fc);font-size:13px;color:#fff;font-weight:700">'+esc(b.fighter_a_name||'TBA')+' vs '+esc(b.fighter_b_name||'TBA')+'</span>'+
+          '<span>'+(b.result?mbdg(b.win_method):bdg('Scheduled','by'))+'</span>'+
+          '</div>';
+      }).join(''));
+    showDetail(esc(e.name||'').toUpperCase(),fd(e.event_date||e.date)+' · '+esc(e.venue||'—'),html,'');
+  }catch(e){document.getElementById('mo-body').innerHTML=er(e.message);}
+}
+
+async function openBout(id){
+  showDetail('Loading…','',ld(),'');
+  try{
+    var b=await api('/bouts/'+id);
+    var fa=esc(b.fighter_a_name||(b.fighter_a?b.fighter_a.first_name+' '+b.fighter_a.last_name:'—')||'—');
+    var fb=esc(b.fighter_b_name||(b.fighter_b?b.fighter_b.first_name+' '+b.fighter_b.last_name:'—')||'—');
+    var winner=b.result==='fighter_a'?fa:b.result==='fighter_b'?fb:'—';
+    var html=
+      '<div class="vs-card">'+
+        '<div class="vs-side" style="'+(b.result==='fighter_a'?'border-left:2px solid var(--grn);padding-left:6px':'')+'">'+
+          '<div style="font-family:var(--fc);font-size:14px;font-weight:700;color:#fff">'+fa+'</div>'+
+          (b.result==='fighter_a'?bdg('WINNER','bg'):'')+
+        '</div>'+
+        '<div style="text-align:center"><div class="vs-vs">VS</div><div style="font-family:var(--fc);font-size:9px;color:var(--muted);letter-spacing:2px;margin-top:3px">'+esc(b.weight_class_name||'—')+'</div></div>'+
+        '<div class="vs-side" style="'+(b.result==='fighter_b'?'border-right:2px solid var(--grn);padding-right:6px;text-align:right':'text-align:right')+'">'+
+          '<div style="font-family:var(--fc);font-size:14px;font-weight:700;color:#fff">'+fb+'</div>'+
+          (b.result==='fighter_b'?bdg('WINNER','bg'):'')+
+        '</div>'+
+      '</div>'+
+      '<div class="dg">'+
+        di('Method',b.win_method?'<span style="color:var(--red);font-weight:700">'+esc(b.win_method)+'</span>':esc(b.result||'Scheduled'))+
+        di('Round / Time',b.win_round?'Rd '+b.win_round+(b.win_time?' at '+esc(b.win_time):''):(b.actual_rounds_fought?'Full '+b.actual_rounds_fought:'—'))+
+        di('Scheduled Rounds',esc(b.scheduled_rounds||'—'))+
+        di('Winner',winner,'ok')+
+        di('Referee',esc(b.referee||'—'))+
+        di('Bout Type',esc(b.bout_type||'—'))+
+      '</div>'+
+      '<div class="dt-sec">📍 EVENT</div>'+
+      '<div class="dg">'+di('Event',esc(b.event_name||'—'))+di('Date',fd(b.event_date||b.date))+'</div>'+
+      (b.notes?'<div class="dt-sec">📝 NOTES</div><div style="background:var(--surf2);border:1px solid var(--bdr);border-radius:var(--r);padding:12px;font-size:13px;color:var(--muted);line-height:1.6">'+esc(b.notes)+'</div>':'');
+    showDetail('BOUT #'+b.id+' — '+fa+' vs '+fb,esc(b.weight_class_name||'—')+' · '+fd(b.event_date||b.date),html,'');
+  }catch(e){document.getElementById('mo-body').innerHTML=er(e.message);}
+}
+
+// ─────────────────────────────────────────────
+// WEIGHT CLASSES
+// ─────────────────────────────────────────────
+async function loadWC(){
+  var con=document.getElementById('wc-body'); con.innerHTML=ld();
+  try{
+    var wcs=await api('/weight-classes/');
+    if(!wcs.length){con.innerHTML=emp('No weight classes found');return;}
+    var groups={};
+    wcs.forEach(function(w){var k=w.category||'other';if(!groups[k])groups[k]=[];groups[k].push(w);});
+    var catLbl={amateur_male:'AMATEUR MEN — IBA/BFK',amateur_female:'AMATEUR WOMEN — IBA/BFK',professional:'PROFESSIONAL — KPBC'};
+    var html='<div class="two">';
+    Object.keys(groups).forEach(function(cat){
+      var list=groups[cat];
+      var lbl=catLbl[cat]||cat.replace(/_/g,' ').toUpperCase();
+      var maxP=Math.max.apply(null,[1].concat(list.map(function(w){return w.pool_count||0;})));
+      html+='<div><div class="st" style="margin-bottom:10px">'+esc(lbl)+'</div><div class="card">';
+      list.forEach(function(w){
+        var pct=Math.round((w.pool_count||0)/maxP*100);
+        var rng=w.min_weight_kg&&w.max_weight_kg?w.min_weight_kg+'–'+w.max_weight_kg+' kg':w.max_weight_kg?'Up to '+w.max_weight_kg+' kg':'—';
+        html+='<div class="wc-r"><div class="wc-n">'+esc(w.name)+'</div><div class="wc-rg">'+esc(rng)+'</div><div class="wc-b"><div class="wc-f" style="width:'+pct+'%"></div></div><div class="wc-c">'+(w.pool_count||0)+'</div></div>';
+      });
+      html+='</div></div>';
+    });
+    html+='</div>';
+    con.innerHTML=html;
+  }catch(e){con.innerHTML=er(e.message);}
+}
+
+// ─────────────────────────────────────────────
+// TITLES
+// ─────────────────────────────────────────────
+async function loadTitles(){
+  setTBody('t-tbody',7,ld());
+  try{
+    var titles=await api('/titles/');
+    var tb=document.getElementById('t-tbody');
+    if(!titles.length){tb.innerHTML='<tr><td colspan="7">'+emp('No titles on record')+'</td></tr>';return;}
+    tb.innerHTML=titles.map(function(t){
+      var holder=t.current_holder_name||(t.current_holder?(t.current_holder.first_name+' '+t.current_holder.last_name):'—')||'—';
+      var init=ini(holder);
+      return '<tr>'+
+        '<td><strong style="color:#c8a84b">'+esc(t.name||t.title_name||'—')+'</strong></td>'+
+        '<td class="tm">'+esc(t.governing_body||t.body||'—')+'</td>'+
+        '<td><div class="fi"><div class="av">'+init+'</div>'+esc(holder)+'</div></td>'+
+        '<td>'+(t.weight_class_name?bdg(t.weight_class_name,'bw'):'—')+'</td>'+
+        '<td class="tm">'+fd(t.date_won||t.won_date)+'</td>'+
+        '<td>'+bdg(t.is_active?'Active':'Vacated',t.is_active?'bg':'br')+'</td>'+
+        '<td><div class="ibtns"><button class="ib v" data-action="view-title" data-id="'+t.id+'" title="View">👁</button></div></td>'+
+        '</tr>';
+    }).join('');
+  }catch(e){setTBody('t-tbody',7,er(e.message));}
+}
+
+document.getElementById('t-tbody').addEventListener('click', function(e){
+  var btn=e.target.closest('[data-action]'); if(!btn)return;
+  if(btn.getAttribute('data-action')==='view-title') openTitle(btn.getAttribute('data-id'));
+});
+
+async function openTitle(id){
+  showDetail('Loading…','',ld(),'');
+  try{
+    var t=await api('/titles/'+id);
+    var holder=t.current_holder_name||(t.current_holder?(t.current_holder.first_name+' '+t.current_holder.last_name):'—')||'—';
+    var defs=t.defences||t.title_defences||[];
+    var html=
+      '<div style="text-align:center;padding:24px 0 8px">'+
+        '<div style="font-size:50px;margin-bottom:8px">🏆</div>'+
+        '<div style="font-family:var(--fd);font-size:22px;color:#c8a84b;letter-spacing:2px">'+esc(t.name||t.title_name||'').toUpperCase()+'</div>'+
+        '<div style="font-family:var(--fc);font-size:12px;color:var(--muted);margin-top:3px">'+esc(t.governing_body||'—')+' · '+esc(t.weight_class_name||'—')+'</div>'+
+        '<div style="margin-top:8px">'+bdg(t.is_active?'Active':'Vacated',t.is_active?'bg':'br')+'</div>'+
+      '</div>'+
+      '<div class="kd"><b></b><b></b><b></b><b></b></div>'+
+      '<div class="dg">'+
+        di('Holder',esc(holder),'ok')+di('Division',esc(t.weight_class_name||'—'))+
+        di('Governing Body',esc(t.governing_body||'—'))+di('Date Won',fd(t.date_won||t.won_date))+
+        di('Won At',esc(t.won_at_event||'—'))+di('Opponent Defeated',esc(t.opponent_defeated||'—'))+
+        di('Method',esc(t.win_method||'—'),'ok')+
+      '</div>'+
+      (defs.length?'<div class="dt-sec">🛡 DEFENCES ('+defs.length+')</div>'+
+        defs.map(function(d){return '<div style="background:var(--surf2);border:1px solid var(--bdr);border-radius:var(--r);padding:10px 13px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center"><span style="font-family:var(--fc);font-size:13px;color:#fff">vs '+esc(d.opponent_name||d.opp||'—')+'</span><span style="font-family:var(--fc);font-size:11px;color:var(--muted)">'+esc(d.win_method||d.method||'—')+' · '+fd(d.date)+'</span></div>';}).join(''):'')+
+      (t.vacated_reason?'<div class="dt-sec">📋 VACATED</div><div style="background:var(--surf2);border:1px solid var(--bdr);border-radius:var(--r);padding:12px;font-size:13px;color:var(--muted)">'+esc(t.vacated_reason)+'</div>':'');
+    showDetail(esc(t.name||'TITLE').toUpperCase(),esc(t.governing_body||'—')+' · '+esc(t.weight_class_name||'—'),html,'');
+  }catch(e){document.getElementById('mo-body').innerHTML=er(e.message);}
+}
+
+// ─────────────────────────────────────────────
+// MEDICAL
+// ─────────────────────────────────────────────
+async function loadMedical(){
+  setTBody('med-tbody',8,ld());
+  try{
+    var fighters=await api('/fighters/');
+    var withMed=fighters.filter(function(f){return f.medical_records&&f.medical_records.length||f.medical;});
+    var tb=document.getElementById('med-tbody');
+    if(!withMed.length){tb.innerHTML='<tr><td colspan="8">'+emp('No medical records found on fighter profiles')+'</td></tr>';return;}
+    document.getElementById('med-al').innerHTML=withMed.length?'<div class="al y">'+withMed.length+' fighter(s) have medical records on file</div>':'';
+    tb.innerHTML=withMed.map(function(f){
+      var m=(f.medical_records&&f.medical_records[0])||f.medical||{};
+      var init=ini((f.first_name||'')+' '+(f.last_name||''));
+      var bp=m.blood_pressure||m.bp||'—';
+      var ecg=m.ecg_result||m.ecg||'—';
+      var cleared=m.cleared_to_compete!=null?m.cleared_to_compete:m.cleared;
+      var bpCls=String(bp).match(/^1[4-9]/)?'by':'bg';
+      var ecgCls=String(ecg).toLowerCase()==='normal'?'bg':'by';
+      return '<tr>'+
+        '<td><div class="fi"><div class="av">'+init+'</div>'+esc(f.first_name||'')+' '+esc(f.last_name||'')+'</div></td>'+
+        '<td class="tm">'+fd(m.exam_date||m.date)+'</td>'+
+        '<td class="tm">'+esc(m.doctor_name||m.doctor||'—')+'</td>'+
+        '<td><span class="bdg '+bpCls+'">'+esc(bp)+'</span></td>'+
+        '<td><span class="bdg '+ecgCls+'">'+esc(ecg)+'</span></td>'+
+        '<td>'+(cleared?'<span class="bdg bg">✓ Yes</span>':'<span class="bdg br">✗ No</span>')+'</td>'+
+        '<td class="tm">'+esc(m.licence_expiry||m.expiry||'—')+'</td>'+
+        '<td><div class="ibtns"><button class="ib v" data-action="view-fighter" data-id="'+f.id+'" title="View Fighter">👁</button></div></td>'+
+        '</tr>';
+    }).join('');
+  }catch(e){setTBody('med-tbody',8,er(e.message));}
+}
+
+document.getElementById('med-tbody').addEventListener('click', function(e){
+  var btn=e.target.closest('[data-action]'); if(!btn)return;
+  if(btn.getAttribute('data-action')==='view-fighter') openFighter(btn.getAttribute('data-id'));
+});
+
+// ─────────────────────────────────────────────
+// SUSPENSIONS
+// ─────────────────────────────────────────────
+async function loadSuspensions(){
+  setTBody('susp-tbody',8,ld());
+  try{
+    var susp=await api('/suspensions/');
+    var active=susp.filter(function(s){return s.is_active;}).length;
+    document.getElementById('susp-al').innerHTML=active?'<div class="al r">🚫 '+active+' fighter(s) currently ineligible to compete</div>':'';
+    var tb=document.getElementById('susp-tbody');
+    if(!susp.length){tb.innerHTML='<tr><td colspan="8">'+emp('No suspensions on record')+'</td></tr>';return;}
+    var tmap={medical:'br',disciplinary:'by',administrative:'bw',doping:'br'};
+    tb.innerHTML=susp.map(function(s){
+      var nm=s.fighter_name||(s.fighter?(s.fighter.first_name+' '+s.fighter.last_name):'—')||'—';
+      var init=ini(nm);
+      var st=String(s.suspension_type||'').toLowerCase();
+      return '<tr>'+
+        '<td><div class="fi"><div class="av">'+init+'</div>'+esc(nm)+'</div></td>'+
+        '<td>'+bdg(s.suspension_type||'—',tmap[st]||'by')+'</td>'+
+        '<td class="tm">'+esc(s.reason||'—')+'</td>'+
+        '<td class="tm">'+fd(s.start_date||s.start)+'</td>'+
+        '<td class="tm">'+fd(s.end_date||s.end)+'</td>'+
+        '<td class="tm">'+esc(s.imposed_by||'—')+'</td>'+
+        '<td>'+bdg(s.is_active?'Active':'Cleared',s.is_active?'br':'bw')+'</td>'+
+        '<td><div class="ibtns"><button class="ib v" data-action="view-susp" data-id="'+s.id+'" title="View">👁</button></div></td>'+
+        '</tr>';
+    }).join('');
+  }catch(e){setTBody('susp-tbody',8,er(e.message));}
+}
+
+document.getElementById('susp-tbody').addEventListener('click', function(e){
+  var btn=e.target.closest('[data-action]'); if(!btn)return;
+  if(btn.getAttribute('data-action')==='view-susp') openSusp(btn.getAttribute('data-id'));
+});
+
+async function openSusp(id){
+  showDetail('Loading…','',ld(),'');
+  try{
+    var s=await api('/suspensions/'+id);
+    var nm=s.fighter_name||(s.fighter?(s.fighter.first_name+' '+s.fighter.last_name):'—')||'—';
+    var init=ini(nm);
+    var end=s.end_date||s.end;
+    var daysLeft=end?Math.max(0,Math.ceil((new Date(end)-new Date())/86400000)):0;
+    var tmap={medical:'br',disciplinary:'by',administrative:'bw',doping:'br'};
+    var st=String(s.suspension_type||'').toLowerCase();
+    var html=
+      '<div class="ph" style="margin-bottom:16px"><div class="pi" style="padding-top:42px">'+
+        '<div class="av2" style="background:'+(s.is_active?'var(--red)':'var(--surf3)')+'">'+init+'</div>'+
+        '<div class="pn">'+esc(nm).toUpperCase()+'</div>'+
+        '<div style="display:flex;gap:5px;margin-top:6px">'+bdg(s.suspension_type||'—',tmap[st]||'by')+(s.is_active?bdg('Active','br'):bdg('Cleared','bw'))+'</div>'+
+      '</div></div>'+
+      (s.is_active?'<div class="al r">🚫 ACTIVE — '+daysLeft+' day(s) remaining</div>':'<div class="al g">✓ CLEARED — fighter is eligible to compete</div>')+
+      '<div class="dg">'+
+        di('Type',esc(s.suspension_type||'—'),tmap[st]==='br'?'bad':'warn')+
+        di('Status',s.is_active?'Active':'Cleared',s.is_active?'bad':'ok')+
+        di('Start Date',fd(s.start_date||s.start))+di('End Date',fd(s.end_date||s.end))+
+        di('Days Remaining',''+daysLeft,daysLeft>0?'bad':'ok')+
+        di('Imposed By',esc(s.imposed_by||'—'))+
+        di('Rule Reference',esc(s.rule_reference||s.rule||'—'))+
+      '</div>'+
+      '<div class="dt-sec">📋 REASON</div>'+
+      '<div style="background:var(--surf2);border:1px solid var(--bdr);border-radius:var(--r);padding:12px;font-size:13px;color:var(--muted);line-height:1.6">'+esc(s.reason||'—')+'</div>'+
+      (s.conditions?'<div class="dt-sec" style="margin-top:12px">✅ CONDITIONS</div><div style="background:var(--surf2);border:1px solid var(--bdr);border-radius:var(--r);padding:12px;font-size:13px;color:var(--muted);line-height:1.6">'+esc(s.conditions)+'</div>':'');
+    showDetail(esc(nm).toUpperCase()+' — SUSPENSION',esc(s.suspension_type||'Suspension')+' · '+fd(s.start_date||s.start)+' to '+fd(s.end_date||s.end),html,'');
+  }catch(e){document.getElementById('mo-body').innerHTML=er(e.message);}
+}
+
+// ─────────────────────────────────────────────
+// MATCHMAKING POOL
+// ─────────────────────────────────────────────
+async function loadPool(){
+  setTBody('pool-tbody',8,ld());
+  try{
+    _pool=await api('/matchmaking/pool');
+    var avail=_pool.filter(function(p){return p.available_for_match;}).length;
+    document.getElementById('pool-stats').innerHTML=
+      '<div class="sc g"><div class="sc-lbl">Available</div><div class="sc-val">'+avail+'</div></div>'+
+      '<div class="sc r"><div class="sc-lbl">Total in Pool</div><div class="sc-val">'+_pool.length+'</div></div>'+
+      '<div class="sc w"><div class="sc-lbl">Unavailable</div><div class="sc-val">'+(_pool.length-avail)+'</div></div>';
+    var wcs=unique(_pool.map(function(p){return p.weight_class_name;}).filter(Boolean)).sort();
+    var sel=document.getElementById('pool-wc');
+    sel.innerHTML='<option value="">All Divisions</option>'+wcs.map(function(w){return '<option value="'+esc(w)+'">'+esc(w)+'</option>';}).join('');
+    renderPool();
+  }catch(e){setTBody('pool-tbody',8,er(e.message));}
+}
+
+document.getElementById('pool-q').addEventListener('input', renderPool);
+document.getElementById('pool-wc').addEventListener('change', renderPool);
+
+function renderPool(){
+  var q=(document.getElementById('pool-q').value||'').toLowerCase();
+  var wc=document.getElementById('pool-wc').value;
+  var data=_pool.filter(function(p){
+    if(q&&(p.fighter_name||'').toLowerCase().indexOf(q)<0) return false;
+    if(wc&&p.weight_class_name!==wc) return false;
+    return true;
+  });
+  var tb=document.getElementById('pool-tbody');
+  if(!data.length){tb.innerHTML='<tr><td colspan="8">'+emp('No pool entries')+'</td></tr>';return;}
+  var lvlMap={novice:'by',intermediate:'by',advanced:'bb',professional:'bb'};
+  tb.innerHTML=data.map(function(p){
+    var nm=p.fighter_name||(p.fighter?(p.fighter.first_name+' '+p.fighter.last_name):'—')||'—';
+    var init=ini(nm);
+    var rec=p.fighter&&(p.fighter.boxing_record||p.fighter.record)||{};
+    var recStr=rec.wins!=null?(rec.wins+'-'+(rec.losses||0)+'-'+(rec.draws||0)):'—';
+    var lvl=String(p.experience_level||'').toLowerCase();
+    return '<tr>'+
+      '<td><div class="fi"><div class="av">'+init+'</div>'+esc(nm)+'</div></td>'+
+      '<td>'+(p.weight_class_name?bdg(p.weight_class_name,'bw'):'—')+'</td>'+
+      '<td>'+recStr+'</td>'+
+      '<td>'+bdg(p.experience_level||'—',lvlMap[lvl]||'bw')+'</td>'+
+      '<td>'+bdg(p.preferred_bout_type||p.bout_type||'any','by')+'</td>'+
+      '<td class="tm">'+fd(p.available_from)+'</td>'+
+      '<td>'+bdg(p.available_for_match?'Available':'Unavailable',p.available_for_match?'bg':'br')+'</td>'+
+      '<td><div class="ibtns"><button class="ib v" data-action="view-pool" data-id="'+p.id+'" title="View">👁</button></div></td>'+
+      '</tr>';
+  }).join('');
+}
+
+document.getElementById('pool-tbody').addEventListener('click', function(e){
+  var btn=e.target.closest('[data-action]'); if(!btn)return;
+  if(btn.getAttribute('data-action')==='view-pool') openPoolEntry(btn.getAttribute('data-id'));
+});
+
+async function openPoolEntry(id){
+  showDetail('Loading…','',ld(),'');
+  try{
+    var p=await api('/matchmaking/pool/'+id);
+    var nm=p.fighter_name||(p.fighter?(p.fighter.first_name+' '+p.fighter.last_name):'—')||'—';
+    var init=ini(nm);
+    var rec=p.fighter&&(p.fighter.boxing_record||p.fighter.record)||{};
+    var recStr=rec.wins!=null?(rec.wins+'-'+(rec.losses||0)+'-'+(rec.draws||0)):'—';
+    var html=
+      '<div class="ph" style="margin-bottom:16px"><div class="pi" style="padding-top:42px">'+
+        '<div class="av2">'+init+'</div>'+
+        '<div class="pn">'+esc(nm).toUpperCase()+'</div>'+
+        '<div style="font-family:var(--fc);font-size:11px;color:var(--muted);margin-top:3px">'+esc(p.weight_class_name||'—')+'</div>'+
+        '<div style="display:flex;gap:5px;margin-top:6px">'+bdg(p.experience_level||'—','bb')+bdg(p.available_for_match?'In Pool':'Unavailable',p.available_for_match?'bg':'br')+'</div>'+
+      '</div></div>'+
+      '<div class="dg">'+
+        di('Weight Class',esc(p.weight_class_name||'—'))+
+        di('Walk-Around',esc(p.walk_around_weight_kg?p.walk_around_weight_kg+' kg':'—'))+
+        di('Record',recStr,'ok')+di('Level',esc(p.experience_level||'—'))+
+        di('Bout Type',esc(p.preferred_bout_type||p.bout_type||'—'))+
+        di('Available From',fd(p.available_from))+
+      '</div>'+
+      (p.notes?'<div class="dt-sec">📝 NOTES</div><div style="background:var(--surf2);border:1px solid var(--bdr);border-radius:var(--r);padding:12px;font-size:13px;color:var(--muted);line-height:1.6">'+esc(p.notes)+'</div>':'');
+    showDetail(esc(nm).toUpperCase()+' — POOL ENTRY',esc(p.weight_class_name||'—')+' · Available: '+fd(p.available_from),html,'');
+  }catch(e){document.getElementById('mo-body').innerHTML=er(e.message);}
+}
+
+// ─────────────────────────────────────────────
+// SUGGESTIONS
+// ─────────────────────────────────────────────
+document.getElementById('gen-btn').addEventListener('click', loadSuggestions);
+
+async function loadSuggestions(){
+  var con=document.getElementById('sug-body'); con.innerHTML=ld();
+  try{
+    var sugg=await api('/matchmaking/suggest?limit=20');
+    if(!Array.isArray(sugg)||!sugg.length){con.innerHTML=emp('No compatible matches found. Check pool availability and eligibility.');return;}
+    con.innerHTML='<div class="al g">✓ '+sugg.length+' compatible pairing(s) found</div>';
+    sugg.forEach(function(s){
+      var fa=esc(s.fighter_a_name||(s.fighter_a?(s.fighter_a.first_name+' '+s.fighter_a.last_name):'—')||'—');
+      var fb=esc(s.fighter_b_name||(s.fighter_b?(s.fighter_b.first_name+' '+s.fighter_b.last_name):'—')||'—');
+      var score=Math.round(s.score!=null?s.score:(s.compatibility_score||0));
+      var checks=s.checks||s.eligibility_checks||[];
+      var div=document.createElement('div');
+      div.className='pair-card';
+      div.innerHTML=
+        '<div class="pair-sc">'+score+'%</div>'+
+        '<div style="font-family:var(--fc);font-size:9px;letter-spacing:2px;color:var(--grn-lt);margin-bottom:6px">'+esc(s.weight_class_name||'—').toUpperCase()+'</div>'+
+        '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">'+
+          '<div><div style="font-family:var(--fc);font-size:14px;font-weight:700;color:#fff">'+fa+'</div><div style="font-size:11px;color:var(--muted)">'+esc(s.fighter_a_record||'')+'</div></div>'+
+          '<div style="font-family:var(--fd);font-size:18px;color:var(--red);margin:0 6px">VS</div>'+
+          '<div><div style="font-family:var(--fc);font-size:14px;font-weight:700;color:#fff">'+fb+'</div><div style="font-size:11px;color:var(--muted)">'+esc(s.fighter_b_record||'')+'</div></div>'+
+        '</div>'+
+        '<div style="display:flex;gap:5px;flex-wrap:wrap">'+
+          checks.map(function(c){ return typeof c==='string'?bdg('✓ '+c,'bg'):bdg((c.passed?'✓ ':'⚠ ')+(c.name||c.check||''),c.passed?'bg':'by');}).join('')+
+        '</div>'+
+        '<div style="margin-top:8px;display:flex;gap:6px">'+
+          '<button class="btn red" style="font-size:12px">✓ Confirm</button>'+
+          '<button class="btn" style="font-size:12px">✗ Reject</button>'+
+        '</div>';
+      con.appendChild(div);
+    });
+  }catch(e){con.innerHTML=er('Failed: '+e.message);}
+}
+
+// ─────────────────────────────────────────────
+// GLOBAL SEARCH
+// ─────────────────────────────────────────────
+var gsi=document.getElementById('gs-inp');
+var gsd=document.getElementById('gs-drop');
+var gst=null;
+
+gsi.addEventListener('input', function(){
+  clearTimeout(gst);
+  var q=this.value.trim();
+  if(q.length<2){gsd.classList.remove('on');return;}
+  gst=setTimeout(async function(){
+    try{
+      var res=await api('/search?q='+encodeURIComponent(q));
+      var html='';
+      [{key:'fighters',lbl:'🥊 Fighters'},{key:'clubs',lbl:'🏟 Clubs'},{key:'coaches',lbl:'👤 Coaches'},{key:'events',lbl:'📋 Events'}]
+        .forEach(function(sec){
+          var items=res[sec.key]||[];
+          if(!items.length) return;
+          html+='<div class="sdrop-cat">'+sec.lbl+'</div>';
+          items.forEach(function(item){
+            html+='<div class="sdrop-row" data-type="'+esc(item.type)+'" data-id="'+item.id+'">'+
+              '<div><div class="sdrop-name">'+esc(item.label||'')+'</div><div class="sdrop-sub">'+esc(item.sub||'')+'</div></div>'+
+              sbdg(item.status)+
+              '</div>';
+          });
+        });
+      gsd.innerHTML=html||'<div class="sdrop-empty">No results for "'+esc(q)+'"</div>';
+      gsd.classList.add('on');
+    }catch(e){/* silent */}
+  },300);
+});
+
+gsd.addEventListener('click', function(e){
+  var row=e.target.closest('.sdrop-row'); if(!row) return;
+  var type=row.getAttribute('data-type');
+  var id=row.getAttribute('data-id');
+  gsd.classList.remove('on'); gsi.value='';
+  if(type==='fighter') openFighter(id);
+  else if(type==='club') openClub(id);
+  else if(type==='coach') openCoach(id);
+  else if(type==='event') openEvent(id);
+});
+
+document.addEventListener('click', function(e){
+  if(!e.target.closest('.srch')) gsd.classList.remove('on');
+});
+
+// ─────────────────────────────────────────────
+// HELPERS
+// ─────────────────────────────────────────────
+function setTBody(id, cols, html) {
+  var el=document.getElementById(id);
+  if(el) el.innerHTML='<tr><td colspan="'+cols+'">'+html+'</td></tr>';
+}
+function unique(arr) {
+  var seen={}, out=[];
+  arr.forEach(function(x){ if(!seen[x]){seen[x]=true;out.push(x);} });
+  return out;
+}
+
+// ─────────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────────
+loaded.dashboard=true;
+loadDashboard();
+
+})(); // end IIFE
+</script>
+</body>
+</html>
